@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Mirror - Sports</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            background: black;
+            color: white;
+            font-family: 'Sora', sans-serif;
+        }
+
+        h1 {
+            display: none;
+        }
+
+        .grid {
+            display: flex;
+            align-items: flex-start;
+            gap: 60px;
+            justify-content: center;
+        }
+
+        .section {
+            flex: 1;
+        }
+
+        .divider {
+            width: 2px;
+            background: white;
+            height: 90vh;
+        }
+
+        .game-row, .standing-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 1.25rem;
+        }
+
+        .table-header {
+            font-weight: bold;
+            border-bottom: 2px solid white;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+        }
+
+        .team-name {
+            flex: 1;
+        }
+
+        .table {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid">
+        <div class="section">
+            <h2 style="text-align:center">Today's MLB Games</h2>
+            <div id="games" class="table"></div>
+        </div>
+
+        <div class="divider"></div> <!-- vertical white line -->
+
+        <div class="section">
+            <h2 style="text-align:center">MLB Standings</h2>
+            <div class="table-header game-row">
+                <div class="team-name">Team</div>
+                <div style="width: 32px; text-align: right;">W</div>
+                <div style="width: 32px; text-align: right;">L</div>
+                <div style="width: 60px; text-align: right;">%</div>
+                <div style="width: 40px; text-align: right;">GB</div>
+                <div style="width: 48px; text-align: right;">L10</div>
+            </div>
+            <div id="standings" class="table"></div>
+        </div>
+    </div>
+
+    <script src="/static/sports.js?v=2"></script>
+</body>
+</html>

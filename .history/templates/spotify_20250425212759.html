@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Mirror – Spotify</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Rubik:wght@400;600&family=Manrope:wght@400;700&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: black;
+      color: white;
+      font-family: 'Sora', sans-serif;
+      text-align: center;
+      padding-top: 5%;
+    }
+
+    #spotify img {
+      width: 400px;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 20px;
+      margin: 20px auto;
+      display: block;
+    }
+
+    #spotify div {
+      font-size: 60px;
+      margin-bottom: 20px;
+    }
+
+    .label {
+      font-weight: 600;
+    }
+
+    #progress-container {
+      width: 80%;
+      margin: 30px auto;
+      height: 20px;
+      background-color: #444;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    #progress-bar {
+      height: 100%;
+      background-color: #1DB954;
+      width: 0%;
+      transition: width 0.5s linear;
+    }
+  </style>
+</head>
+<body>
+  <div id="spotify">
+    <h3 style="font-size: 100px; margin-bottom: 60px; display: inline-flex; align-items: center;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg" alt="Spotify" style="width: 85px; height: 85px; margin-right: 25px;">
+      Now Playing
+    </h3>
+    <img id="spotify-album-cover" alt="Album Cover" />
+    <div id="spotify-track"><span class="label">Song:</span> ...</div>
+    <div id="spotify-artist"><span class="label">Artist:</span> ...</div>
+    <div id="spotify-album"><span class="label">Album:</span> ...</div>
+    <div id="progress-container">
+      <div id="progress-bar"></div>
+    </div>
+  </div>
+
+  <script>
+    let songDuration = 0;
+    let songProgress = 0;
+    let songStartTime = Date.now();
+
+    async function getSong() {
+      const res = await fetch("/spotify_data");
+      const song = await res.json();
+      updateSong(song);
+
+      songDuration = song.duration_ms || 0;
+      songProgress = song.progress_ms || 0;
+      songStartTime = Date.now();
+    }
+
+    function updateSong(song) {
+      document.getElementById('spotify-track').innerHTML = <span class="label">Song:</span> ${song.name || 'N/A'};
+      document.getElementById('spotify-artist').innerHTML = <span class="label">Artist:</span> ${song.artist || 'N/A'};
+      document.getElementById('spotify-album').innerHTML = <span class="label">Album:</span> ${song.album || 'N/A'};
+
+      const albumCover = document.getElementById('spotify-album-cover');
+      if (song.album_cover) {
+        albumCover.src = song.album_cover;
+        albumCover.alt = ${song.album} album cover;
+      } else {
+        albumCover.src = '';
+        albumCover.alt = 'No album cover';
+      }
+    }
+
+    function updateProgressBar() {
+      if (songDuration === 0) return;
+
+      const elapsed = Date.now() - songStartTime;
+      const currentProgress = songProgress + elapsed;
+      const percentage = Math.min(currentProgress / songDuration, 1) * 100;
+
+      document.getElementById("progress-bar").style.width = ${percentage}%;
+    }
+
+    getSong();
+    setInterval(getSong, 2000);
+    setInterval(updateProgressBar, 1000);
+  </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Mirror – Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Sora', sans-serif;
+    }
+    #clock-wrapper {
+      position: absolute;
+      top: 8%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+    }
+    #clock {
+      font-size: 350px;
+      line-height: 1;
+    }
+    #ampm {
+      font-size: 60px;
+      margin-top: -40px;
+    }
+    #weather {
+  font-size: 90px;
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 80px;
+  text-align: center;
+}
+  </style>
+</head>
+<body>
+  <div id="clock-wrapper">
+    <div id="ampm"></div>
+    <div id="clock"></div>
+    <div id="date"></div>
+  </div>
+  <div id="weather">
+    <div id="weather-temp"></div>
+    <div id="weather-desc" style="display: flex; align-items: center; gap: 20px;"></div>
+  </div>
+
+  <script>
+    function clock() {
+      const now = new Date();
+      let hours = now.getHours();
+      const minutes = now.getMinutes();
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+      const timeStr = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+      document.getElementById('clock').textContent = timeStr;
+      document.getElementById('ampm').textContent = ampm;
+    }
+
+    function formatDate() {
+      const now = new Date();
+      const weekday = now.toLocaleString('en-US', { weekday: 'long' });
+      const month = now.toLocaleString('en-US', { month: 'long' });
+      const day = now.getDate();
+      const formatted = `${weekday}, ${month} ${day}`;
+      document.getElementById('date').textContent = formatted;
+    }
+
+
+    async function weather() {
+      const latitude = 44.4759;
+      const longitude = -73.2121;
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code&temperature_unit=fahrenheit&timezone=auto`;
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        const temp = data.current.temperature_2m;
+        const code = data.current.weather_code;
+        const codes = {
+          0: { label: "Clear", icon: "☀️" },
+          1: { label: "Mainly Clear", icon: "🌤️" },
+          2: { label: "Partly Cloudy", icon: "⛅" },
+          3: { label: "Overcast", icon: "☁️" },
+          45: { label: "Fog", icon: "🌫️" },
+          48: { label: "Rime Fog", icon: "🌫️" },
+          51: { label: "Light Drizzle", icon: "🌧️" },
+          53: { label: "Drizzle", icon: "🌦️" },
+          55: { label: "Heavy Drizzle", icon: "🌧️" },
+          61: { label: "Light Rain", icon: "🌧️" },
+          63: { label: "Rain", icon: "🌧️" },
+          65: { label: "Heavy Rain", icon: "🌧️" }
+        };
+        document.getElementById('weather-temp').textContent = `${temp}°F`;
+        document.getElementById('weather-desc').textContent = codes[code] ? `${codes[code].icon} ${codes[code].label}` : `Unknown`;
+      } catch (e) {
+        console.error("Weather fetch failed:", e);
+      }
+    }
+
+    clock();
+    formatDate();
+    setInterval(clock, 1000);
+    weather();
+    setInterval(weather, 1800000);
+  </script>
+</body>
+</html>

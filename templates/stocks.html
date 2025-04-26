@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Mirror - Stocks</title>
+  <style>
+    body {
+      font-family: 'Sora', sans-serif;
+      color: white;
+      text-align: center;
+      background: black;
+      margin: 0;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    #charts {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      justify-items: center;
+    }
+
+    .chart-container {
+      background: #222;
+      border-radius: 20px;
+      padding: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+      width: 450px;
+      height: 350px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+  </style>
+</head>
+<body>
+  <h1>Stock Tracker (Last 5 Days)</h1>
+
+  <div id="charts"></div>
+
+  <!-- Load Chart.js first -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Load your custom stocks.js after Chart.js -->
+  <script src="/static/stocks.js"></script>
+</body>
+</html>

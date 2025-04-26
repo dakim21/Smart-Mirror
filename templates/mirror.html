@@ -1,0 +1,48 @@
+<!-- templates/mirror.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Mirror - Display</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    iframe {
+      width: 100vw;
+      height: 100vh;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <iframe id="mirror-frame" src="/home"></iframe>
+
+  <script>
+    async function checkPage() {
+      try {
+        const res = await fetch("/current_page");
+        const data = await res.json();
+        const page = data.page || "home";
+        const frame = document.getElementById("mirror-frame");
+        const currentPath = new URL(frame.src).pathname.replace(/^\//, "");
+
+        if (currentPath !== page) {
+          frame.src = `/${page}`;
+        }
+      } catch (err) {
+        console.error("Mirror polling error:", err);
+      }
+    }
+
+    checkPage();
+    setInterval(checkPage, 3000);
+  </script>
+</body>
+</html>
