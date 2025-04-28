@@ -1,0 +1,82 @@
+<!-- templates/remote.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Sora', sans-serif;
+      background: #111;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    button {
+      font-size: 2rem;
+      margin: 1rem;
+      padding: 1rem 2rem;
+      background: #444;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 80%;
+    }
+
+    button:hover {
+      background: #666;
+    }
+
+    #colorPicker {
+      margin-top: 2rem;
+      width: 80%;
+      height: 60px;
+      border: none;
+      border-radius: 10px;
+      background: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <button onclick="setPage('home')">Home</button>
+  <button onclick="setPage('spotify')">Spotify</button>
+  <button onclick="setPage('calendar')">Calendar</button>
+  <button onclick="setPage('sports')">Sports</button>
+  <button onclick="setPage('stocks')">Stocks</button>
+
+  <!-- LED Color Picker -->
+  <input type="color" id="colorPicker" onchange="setLEDColor()">
+
+  <script>
+    async function setPage(page) {
+      await fetch("/set_page", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ page })
+      });
+      alert(`Mirror set to "${page}"`);
+    }
+
+    async function setLEDColor() {
+      const colorPicker = document.getElementById('colorPicker');
+      const color = colorPicker.value; // like "#ff0000"
+
+      await fetch("/set_led_color", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ color })
+      });
+      alert(`LED color set to "${color}"`);
+    }
+  </script>
+</body>
+</html>

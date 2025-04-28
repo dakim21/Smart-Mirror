@@ -1,0 +1,109 @@
+/*
+Universal Stylesheet
+1. Defines overall page layout: black background, white text, hidden scrollbars
+2. Styles digital clock and date at the top center of the page
+3. Styles weather section centered underneath the clock
+4. Styles side widgets for calendar events and cryptocurrency tracking
+5. Styles full-page calendar view with today's and upcoming events side-by-side
+6. Ensures large, clear font sizes for visibility from a distance
+*/
+
+/*Global Page Setup*/
+body {
+  margin: 0;
+  padding: 0;
+  background: black;
+  color: white;
+  font-family: 'Sora', sans-serif;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/*Centered digital clock*/
+#clock {
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 350px;
+  text-align: center;
+}
+
+#date {
+  display: block;
+  margin-top: 340px;
+  font-size: 70px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+/*Weather display*/
+#weather {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 180px;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 80px;
+}
+
+#weather-desc {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+/*Calendar Full Page*/
+#calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 60px;
+  gap: 0;
+}
+
+#calendar-icon {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  margin-right: 20px;
+}
+
+#calendar-header h1 {
+  font-size: 120px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Side-by-side layout for events */
+.calendar-sections {
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+  flex-wrap: wrap;
+  padding: 0 40px;
+}
+
+.calendar-section {
+  flex: 1;
+  min-width: 400px;
+  max-width: 600px;
+}
+
+.calendar-section h2 {
+  font-size: 60px;
+  margin-bottom: 30px;
+  text-decoration: underline;
+}
+
+.calendar-section .event {
+  font-size: 36px;
+  margin: 10px 0;
+}
