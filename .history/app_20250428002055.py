@@ -208,7 +208,7 @@ def sports_data():
         return jsonify(cached_sports_data)
 
     #if no valid cache, get fresh data
-    API_KEY = "qsQzAvKRHtcH5kpj1TFvqyns59gmiEP9ay1uUXOe"
+    API_KEY = "PoeGaPJk98jwRXxUCxzL1BkR4Fg94PYlk6lIhuYb"
     tz = pytz.timezone("US/Eastern")
     today = date.today()
 
@@ -368,13 +368,13 @@ def get_calendar_events():
     tz = pytz.timezone('America/New_York')
     now = datetime.now(tz)
     today = now.date()
-    three_months_later = (today + timedelta(days=90))
+    one_month_later = (today.replace(day=28) + timedelta(days=10)).replace(day=1)
 
     #start and end vars for today and future events
     start_today = tz.localize(datetime.combine(today, dt_time.min)).isoformat()
     end_today = tz.localize(datetime.combine(today, dt_time.max)).isoformat()
     start_future = tz.localize(datetime.combine(today + timedelta(days=1), dt_time.min)).isoformat()
-    end_future = tz.localize(datetime.combine(three_months_later, dt_time.max)).isoformat()
+    end_future = tz.localize(datetime.combine(one_month_later, dt_time.max)).isoformat()
 
     today_events, upcoming_events = [], []
 
