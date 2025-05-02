@@ -136,7 +136,7 @@ def stocks_data():
         return jsonify(cached_stock_data)
 
     #if no valid cache, get fresh data
-    API_KEY = "A79E9AHKRPHVZROI"
+    API_KEY = "INSERT API KEY"
     #set stocks you want to use, pre defined labels 4 letters
     STOCK_SYMBOLS = ['GOOGL', 'NVDA', 'INTC', 'NXPI']
     result = {}
@@ -208,7 +208,7 @@ def sports_data():
         return jsonify(cached_sports_data)
 
     #if no valid cache, get fresh data
-    API_KEY = "qsQzAvKRHtcH5kpj1TFvqyns59gmiEP9ay1uUXOe"
+    API_KEY = "INSERT API KEY"
     tz = pytz.timezone("US/Eastern")
     today = date.today()
 
